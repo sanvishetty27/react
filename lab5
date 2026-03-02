@@ -1,4 +1,4 @@
-#App.jsx
+                                         #App.jsx
 import FigureList from "./FigureList";
 function App(){
   return(
@@ -108,4 +108,28 @@ border-top-right-radius: 10px;
 padding: 5px; 
 font-size: 14px; font-weight: bold; }
 
-
+            #FigureList.css
+.container { 
+text-align: center; 
+padding: 20px; 
+} 
+.buttons { 
+margin-bottom: 20px; } 
+button { 
+margin: 5px; 
+padding: 10px 15px; 
+font-size: 16px; 
+border: none; 
+cursor: pointer; 
+background-color: green; color: white;
+border-radius: 5px; 
+} 
+button:hover { 
+background-color: darkgreen; 
+} 
+.gallery { 
+display: flex; 
+flex-wrap: wrap; 
+justify-content: center; 
+gap: 15px; 
+} 
