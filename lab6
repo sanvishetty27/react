@@ -1,0 +1,317 @@
+                                   App.jsx
+
+import React from "react";
+import Form from "./Form";
+import "./App.css";
+
+function App() {
+  return (
+    <div>
+      <Form />
+    </div>
+  );
+}
+
+export default App;
+
+
+                                Form.jsx
+
+import React, { useState } from "react";
+
+function Form() {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [submittedData, setSubmittedData] = useState(null);
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Basic input sanitization
+    const cleanValue = value.replace(/[<>]/g, "");
+
+    setFormData({
+      ...formData,
+      [name]: cleanValue
+    });
+  };
+
+  // Email validation
+  const validateEmail = (email) => {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+  };
+
+  // Validate form
+  const validateForm = () => {
+
+    let newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } 
+    else if (!validateEmail(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } 
+    else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Submit form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      console.log(formData);
+      setSubmittedData(formData);
+
+      setFormData({
+        name: "",
+        email: "",
+        password: ""
+      });
+    }
+  };
+
+  return (
+    <div className="container">
+
+      <h2>User Registration Form</h2>
+
+      <form onSubmit={handleSubmit}>
+
+        {/* Name */}
+        <div className="form-group">
+          <label>Name</label>
+
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className={errors.name ? "error" : ""}
+          />
+
+          {errors.name && (
+            <p className="error-message">{errors.name}</p>
+          )}
+        </div>
+
+        {/* Email */}
+        <div className="form-group">
+          <label>Email</label>
+
+          <input
+            type="text"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={errors.email ? "error" : ""}
+          />
+
+          {errors.email && (
+            <p className="error-message">{errors.email}</p>
+          )}
+        </div>
+
+        {/* Password */}
+        <div className="form-group">
+          <label>Password</label>
+
+          <div className="password-box">
+
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={errors.password ? "error" : ""}
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+
+          </div>
+
+          {errors.password && (
+            <p className="error-message">{errors.password}</p>
+          )}
+        </div>
+
+        <button type="submit">Submit</button>
+
+      </form>
+
+      {/* Display Submitted Data */}
+
+      {submittedData && (
+        <div className="result">
+          <h3>Submitted Data</h3>
+
+          <p>Name: {submittedData.name}</p>
+          <p>Email: {submittedData.email}</p>
+          <p>Password: {submittedData.password}</p>
+
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+export default Form;
+
+
+                                            App.css
+
+/* Reset */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+/* Center the form */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#ffd6ec,#ffe6f5);
+}
+
+/* Form container */
+
+.container{
+width:420px;
+background:white;
+padding:35px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(255,105,180,0.25);
+}
+
+/* Heading */
+
+h2{
+text-align:center;
+color:#ff4da6;
+margin-bottom:25px;
+}
+
+/* Form group */
+
+.form-group{
+margin-bottom:18px;
+}
+
+label{
+color:#555;
+font-size:14px;
+}
+
+/* Inputs */
+
+input{
+width:100%;
+padding:11px;
+margin-top:6px;
+border-radius:10px;
+border:1px solid #ffcce6;
+
+/* LIGHT PINK typing area */
+background:#fff0f7;
+
+color:#444;
+font-size:14px;
+outline:none;
+transition:0.3s;
+}
+
+/* Focus effect */
+
+input:focus{
+border-color:#ff66b2;
+background:#ffe6f2;
+box-shadow:0 0 6px rgba(255,105,180,0.4);
+}
+
+/* Password layout */
+
+.password-box{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+/* Buttons */
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+background:#ff66b2;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#ff3385;
+}
+
+/* Submit button */
+
+button[type="submit"]{
+width:100%;
+margin-top:10px;
+}
+
+/* Error styling */
+
+.error{
+border:2px solid #ff4d6d;
+}
+
+.error-message{
+color:#ff4d6d;
+font-size:12px;
+margin-top:3px;
+}
+
+/* Submitted result */
+
+.result{
+margin-top:20px;
+background:#ffe6f5;
+padding:15px;
+border-radius:10px;
+border-left:4px solid #ff66b2;
+}
