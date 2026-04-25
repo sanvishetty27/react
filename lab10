@@ -1,4 +1,4 @@
-app.jsx
+                                 app.jsx
 
 import React, { useState, useEffect } from 'react';
 import './App.css';
@@ -81,7 +81,7 @@ const DataFetcher = () => {
 
 export default DataFetcher;
 
-app.css
+                             app.css
 
 *{
   padding:0;
@@ -90,8 +90,6 @@ app.css
 }
 body{
   font-family:Arial,sans-serif;
-  margin:0;
-  padding:0;
   background-color:#f4f4f4;
 }
 button{
@@ -106,11 +104,11 @@ button{
 }
 .data-fetcher{
   width:80%;
-  margin:0 auto;
+  margin:20px auto;
   padding:20px;
   background-color:#fff;
   border-radius:8px;
-  box-shadow:0 4px 8px rgba(0,0,0,1);
+  box-shadow:0 4px 8px rgba(0,0,0,0.1); /* improved */
 }
 h1{
   text-align:center;
@@ -142,5 +140,14 @@ table th,table td{
   text-align:center;
 }
 
-main.jsx
+                           main.jsx
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import DataFetcher from './App';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <DataFetcher />
+  </React.StrictMode>
+);
